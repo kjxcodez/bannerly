@@ -10,3 +10,4 @@ export * from "./ErrorState";
 export * from "./TextInput";
 export * from "./ColorSwatchPicker";
 export * from "./FontPicker";
+export * from "./Modal";

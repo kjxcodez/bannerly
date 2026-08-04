@@ -13,6 +13,7 @@ import { ErrorState } from "../components/ErrorState";
 import { TextInput } from "../components/TextInput";
 import { ColorSwatchPicker, ColorSwatch } from "../components/ColorSwatchPicker";
 import { FontPicker, FontOption } from "../components/FontPicker";
+import { Modal } from "../components/Modal";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -22,6 +23,10 @@ export default function Index() {
   const [selectedTag, setSelectedTag] = useState("all");
   const [isRetryingTemplates, setIsRetryingTemplates] = useState(false);
   const [editorText, setEditorText] = useState("Make something today");
+
+  // BottomSheet and Dialog visible states
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Define design system color swatches for testing
   const designSystemSwatches: ColorSwatch[] = [
@@ -100,6 +105,29 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* Modal / BottomSheet Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Modals & Bottom Sheets
+        </Text>
+        <View className="flex-row gap-4">
+          <View className="flex-1">
+            <Button
+              variant="secondary"
+              label="Open Bottom Sheet"
+              onPress={() => setIsBottomSheetOpen(true)}
+            />
+          </View>
+          <View className="flex-1">
+            <Button
+              variant="primary"
+              label="Open Dialog"
+              onPress={() => setIsDialogOpen(true)}
+            />
+          </View>
+        </View>
       </View>
 
       {/* FontPicker Showroom */}
@@ -677,6 +705,93 @@ export default function Index() {
           />
         </View>
       </View>
+
+      {/* Rendered BottomSheet Modal */}
+      <Modal
+        isOpen={isBottomSheetOpen}
+        onClose={() => setIsBottomSheetOpen(false)}
+        variant="bottom-sheet"
+        title="Export Design"
+      >
+        <View className="gap-4 py-2">
+          <Text variant="body" className="text-ink-muted">
+            Choose your preferred quality setting to download this banner. Premium templates export up to 4K resolution.
+          </Text>
+
+          <View className="gap-3">
+            <Card padding="sm" className="flex-row items-center justify-between border border-border">
+              <View className="flex-1">
+                <Text variant="title" className="text-base">Standard PNG</Text>
+                <Text variant="caption" className="text-ink-muted">Recommended for social sharing</Text>
+              </View>
+              <Badge variant="default" label="Free" />
+            </Card>
+
+            <Card padding="sm" className="flex-row items-center justify-between border border-border">
+              <View className="flex-1">
+                <Text variant="title" className="text-base">High-Res Print PDF</Text>
+                <Text variant="caption" className="text-ink-muted">Vector quality layout for printers</Text>
+              </View>
+              <Badge variant="premium" label="PRO" />
+            </Card>
+          </View>
+
+          <View className="flex-row gap-4 mt-2">
+            <View className="flex-1">
+              <Button
+                variant="secondary"
+                label="Cancel"
+                onPress={() => setIsBottomSheetOpen(false)}
+              />
+            </View>
+            <View className="flex-1">
+              <Button
+                variant="primary"
+                label="Export Now"
+                onPress={() => {
+                  setIsBottomSheetOpen(false);
+                  toast.show("Preparing download...", { type: "success" });
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Rendered Dialog Modal */}
+      <Modal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        variant="dialog"
+        title="Delete Draft"
+      >
+        <View className="gap-4">
+          <Text variant="body" className="text-ink-muted text-center">
+            Are you sure you want to delete this draft poster? This action is permanent and cannot be undone.
+          </Text>
+
+          <View className="flex-row gap-4 mt-2">
+            <View className="flex-1">
+              <Button
+                variant="secondary"
+                label="Keep draft"
+                onPress={() => setIsDialogOpen(false)}
+              />
+            </View>
+            <View className="flex-1">
+              <Button
+                variant="destructive"
+                label="Delete"
+                onPress={() => {
+                  setIsDialogOpen(false);
+                  toast.show("Draft deleted", { type: "error" });
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+
     </ScrollView>
   );
 }
