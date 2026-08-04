@@ -5,11 +5,15 @@ import { Button } from "../components/Button";
 import { Text } from "../components/Text";
 import { IconButton } from "../components/IconButton";
 import { Card } from "../components/Card";
+import { Badge } from "../components/Badge";
 
 export default function Index() {
   const [isLgLoading, setIsLgLoading] = useState(false);
   const [isIconLoading, setIsIconLoading] = useState(false);
   const [cardPressCount, setCardPressCount] = useState(0);
+  const [selectedTag, setSelectedTag] = useState("all");
+
+  const tags = ["all", "posters", "flyers", "invitations", "business"];
 
   return (
     <ScrollView 
@@ -23,6 +27,71 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* Badges / Chips Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Badges & Chips (Category Filters)
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Static Status Badges</Text>
+            <View className="flex-row flex-wrap gap-2">
+              <Badge variant="default" label="Draft" />
+              <Badge variant="active" label="Published" />
+              <Badge 
+                variant="premium" 
+                label="Premium" 
+                leftIcon={<FontAwesome name="star" size={10} color="#2B2621" style={{ marginRight: 2 }} />}
+              />
+              <Badge variant="default" pill={false} label="Default 8px Radius" />
+            </View>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Sizes (sm vs md)</Text>
+            <View className="flex-row items-center gap-2">
+              <Badge size="sm" variant="active" label="Small Chip" />
+              <Badge size="md" variant="active" label="Medium Chip" />
+            </View>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Interactive Chips (Filter UI Example)</Text>
+            <View className="flex-row flex-wrap gap-2">
+              {tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant={selectedTag === tag ? "active" : "default"}
+                  label={tag.charAt(0).toUpperCase() + tag.slice(1)}
+                  onPress={() => setSelectedTag(tag)}
+                  accessibilityLabel={`Filter by ${tag}`}
+                />
+              ))}
+            </View>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Chips with Trailing Icons (e.g., Close/Remove)</Text>
+            <View className="flex-row gap-2">
+              <Badge
+                variant="default"
+                label="Branding"
+                rightIcon={<FontAwesome name="times-circle" size={14} color="#6B5F52" style={{ marginLeft: 4 }} />}
+                onPress={() => console.log("Remove chip")}
+                accessibilityLabel="Remove branding filter"
+              />
+              <Badge
+                variant="active"
+                label="Typography"
+                rightIcon={<FontAwesome name="times-circle" size={14} color="#E8623D" style={{ marginLeft: 4 }} />}
+                onPress={() => console.log("Remove typography")}
+                accessibilityLabel="Remove typography filter"
+              />
+            </View>
+          </View>
+        </View>
       </View>
 
       {/* Cards Showroom */}
