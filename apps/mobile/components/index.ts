@@ -14,3 +14,4 @@ export * from "./Modal";
 export * from "./SegmentedControl";
 export * from "./Header";
 export * from "./TemplateCard";
+export * from "./SlotOverlay";
