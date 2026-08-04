@@ -8,6 +8,7 @@ import { Card } from "../components/Card";
 import { Badge } from "../components/Badge";
 import { toast } from "../components/Toast";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { EmptyState } from "../components/EmptyState";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -46,6 +47,37 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* EmptyState Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Empty States
+        </Text>
+        <View className="gap-8">
+          <View className="border border-border rounded-2xl bg-cream-deep p-4">
+            <Text variant="caption" className="uppercase text-coral mb-2">Example 1: No Search Results</Text>
+            <EmptyState
+              title="No templates found"
+              description="No templates match your search. Try a different word, or browse all categories."
+              illustration={<FontAwesome name="search" size={44} color="#6B5F52" />}
+              actionLabel="Clear search filter"
+              onActionPress={() => toast.show("Filters cleared!", { type: "success" })}
+              actionButtonProps={{ variant: "secondary" }}
+            />
+          </View>
+
+          <View className="border border-border rounded-2xl bg-cream-deep p-4">
+            <Text variant="caption" className="uppercase text-coral mb-2">Example 2: Empty Gallery / Drafts List</Text>
+            <EmptyState
+              title="Start your first design"
+              description="Your saved designs will appear here. Create a banner from scratch or choose a starter template."
+              illustration={<FontAwesome name="folder-open-o" size={44} color="#E8623D" />}
+              actionLabel="Browse templates"
+              onActionPress={() => toast.show("Navigating to gallery...", { type: "success" })}
+            />
+          </View>
+        </View>
       </View>
 
       {/* LoadingSpinners Showroom */}
