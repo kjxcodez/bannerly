@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { Button } from "../components/Button";
+import { Text } from "../components/Text";
+import { IconButton } from "../components/IconButton";
 
 export default function Index() {
   const [isLgLoading, setIsLgLoading] = useState(false);
+  const [isIconLoading, setIsIconLoading] = useState(false);
 
   return (
     <ScrollView 
@@ -11,18 +15,141 @@ export default function Index() {
       contentContainerStyle={{ paddingBottom: 48 }}
     >
       <View className="mb-8 mt-12">
-        <Text className="text-3xl font-fraunces text-ink mb-2">
-          Bannerly Buttons
+        <Text variant="display-lg" className="mb-2">
+          Make something today
         </Text>
-        <Text className="text-sm font-inter text-ink-muted">
+        <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
       </View>
 
-      {/* Variants Section */}
+      {/* Typography Showroom */}
       <View className="mb-8">
-        <Text className="text-lg font-inter-semibold text-ink mb-4 border-b border-border pb-2">
-          Button Variants
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Typography Scale
+        </Text>
+        <View className="gap-4">
+          <View>
+            <Text variant="caption" className="uppercase text-coral">display-lg</Text>
+            <Text variant="display-lg">Make something today</Text>
+          </View>
+          <View>
+            <Text variant="caption" className="uppercase text-coral">display-md</Text>
+            <Text variant="display-md">Create template</Text>
+          </View>
+          <View>
+            <Text variant="caption" className="uppercase text-coral">title</Text>
+            <Text variant="title">Small print studio aesthetic</Text>
+          </View>
+          <View>
+            <Text variant="caption" className="uppercase text-coral">body</Text>
+            <Text variant="body">Primary body text. Fully styled and spaced for reading comfort.</Text>
+          </View>
+          <View>
+            <Text variant="caption" className="uppercase text-coral">body-sm</Text>
+            <Text variant="body-sm">Secondary body text. Used for descriptions and card details.</Text>
+          </View>
+          <View>
+            <Text variant="caption" className="uppercase text-coral">caption</Text>
+            <Text variant="caption">TAGS, COUNTERS, AND TIMESTAMPS (+0.02em tracking)</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* IconButton Section */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Icon Buttons (Circular)
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Variants</Text>
+            <View className="flex-row gap-4">
+              <IconButton
+                variant="primary"
+                accessibilityLabel="Add item"
+                icon={<FontAwesome name="plus" size={20} color="#FFFFFF" />}
+                onPress={() => console.log("Primary icon pressed")}
+              />
+              <IconButton
+                variant="secondary"
+                accessibilityLabel="Share template"
+                icon={<FontAwesome name="share" size={18} color="#2B2621" />}
+                onPress={() => console.log("Secondary icon pressed")}
+              />
+              <IconButton
+                variant="premium"
+                accessibilityLabel="Favorite item"
+                icon={<FontAwesome name="star" size={20} color="#2B2621" />}
+                onPress={() => console.log("Premium icon pressed")}
+              />
+              <IconButton
+                variant="destructive"
+                accessibilityLabel="Delete item"
+                icon={<FontAwesome name="trash" size={18} color="#B14538" />}
+                onPress={() => console.log("Destructive icon pressed")}
+              />
+            </View>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Sizes (sm/md/lg with minimum 44px hit targets)</Text>
+            <View className="flex-row items-center gap-4">
+              <IconButton
+                variant="primary"
+                size="sm"
+                accessibilityLabel="Edit small"
+                icon={<FontAwesome name="pencil" size={14} color="#FFFFFF" />}
+              />
+              <IconButton
+                variant="primary"
+                size="md"
+                accessibilityLabel="Edit medium"
+                icon={<FontAwesome name="pencil" size={18} color="#FFFFFF" />}
+              />
+              <IconButton
+                variant="primary"
+                size="lg"
+                accessibilityLabel="Edit large"
+                icon={<FontAwesome name="pencil" size={22} color="#FFFFFF" />}
+              />
+            </View>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">States</Text>
+            <View className="flex-row gap-4">
+              <IconButton
+                variant="secondary"
+                isLoading={true}
+                accessibilityLabel="Loading action"
+                icon={<FontAwesome name="plus" size={18} color="#2B2621" />}
+              />
+              <IconButton
+                variant="secondary"
+                disabled={true}
+                accessibilityLabel="Disabled action"
+                icon={<FontAwesome name="plus" size={18} color="#2B2621" />}
+              />
+              <IconButton
+                variant="primary"
+                isLoading={isIconLoading}
+                accessibilityLabel="Click to load action"
+                icon={<FontAwesome name="refresh" size={18} color="#FFFFFF" />}
+                onPress={() => {
+                  setIsIconLoading(true);
+                  setTimeout(() => setIsIconLoading(false), 2000);
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Button Section */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Regular Buttons
         </Text>
         <View className="gap-4">
           <Button 
@@ -50,7 +177,7 @@ export default function Index() {
 
       {/* Sizes Section */}
       <View className="mb-8">
-        <Text className="text-lg font-inter-semibold text-ink mb-4 border-b border-border pb-2">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
           Button Sizes
         </Text>
         <View className="gap-4 items-start">
@@ -74,7 +201,7 @@ export default function Index() {
 
       {/* States Section */}
       <View className="mb-8">
-        <Text className="text-lg font-inter-semibold text-ink mb-4 border-b border-border pb-2">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
           Button States
         </Text>
         <View className="gap-4">
