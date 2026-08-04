@@ -11,6 +11,7 @@ import { LoadingSpinner } from "../components/LoadingSpinner";
 import { EmptyState } from "../components/EmptyState";
 import { ErrorState } from "../components/ErrorState";
 import { TextInput } from "../components/TextInput";
+import { ColorSwatchPicker, ColorSwatch } from "../components/ColorSwatchPicker";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -21,7 +22,29 @@ export default function Index() {
   const [isRetryingTemplates, setIsRetryingTemplates] = useState(false);
   const [editorText, setEditorText] = useState("Make something today");
 
+  // Define design system color swatches for testing YIQ contrast checks and sizing
+  const designSystemSwatches: ColorSwatch[] = [
+    { id: "coral", value: "#E8623D", label: "Coral Accent" },
+    { id: "gold", value: "#C99A3A", label: "Premium Gold" },
+    { id: "success", value: "#4A7A5E", label: "Sage Success" },
+    { id: "ink", value: "#2B2621", label: "Ink Black" },
+    { id: "cream-deep", value: "#F2ECDD", label: "Cream Deep" },
+    { id: "error", value: "#B14538", label: "Clay Error" },
+    { id: "white", value: "#FFFFFF", label: "Pure White" },
+  ];
+
+  const [selectedColorId, setSelectedColorId] = useState("coral");
+  const [selectedSmallColorId, setSelectedSmallColorId] = useState("success");
+
   const tags = ["all", "posters", "flyers", "invitations", "business"];
+
+  const handleSelectColor = (id: string) => {
+    setSelectedColorId(id);
+    const swatch = designSystemSwatches.find((s) => s.id === id);
+    if (swatch) {
+      toast.show(`Selected Theme Color: ${swatch.label}`, { type: "success" });
+    }
+  };
 
   const triggerFullScreenLoading = () => {
     setIsFullScreenLoading(true);
@@ -59,6 +82,34 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* ColorSwatchPicker Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Color Swatch Pickers (Theme selectors)
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Medium Swatches (default: 32px circle inside 44px ring)</Text>
+            <ColorSwatchPicker
+              swatches={designSystemSwatches}
+              selectedColorId={selectedColorId}
+              onSelectColor={handleSelectColor}
+              size="md"
+            />
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Small Swatches (24px circle inside 36px ring, 44px touch area)</Text>
+            <ColorSwatchPicker
+              swatches={designSystemSwatches}
+              selectedColorId={selectedSmallColorId}
+              onSelectColor={setSelectedSmallColorId}
+              size="sm"
+            />
+          </View>
+        </View>
       </View>
 
       {/* TextInput Showroom */}
