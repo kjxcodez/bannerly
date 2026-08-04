@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import {
   Dimensions,
   Modal as RNModal,
@@ -66,7 +66,7 @@ export const Modal = forwardRef<View, ModalProps>(
     const dialogScale = useSharedValue(0.9);
     const dialogOpacity = useSharedValue(0);
 
-    const handleOpen = () => {
+    const handleOpen = useCallback(() => {
       if (isReduced) {
         backdropOpacity.value = 1;
         sheetTranslateY.value = 0;
@@ -78,9 +78,9 @@ export const Modal = forwardRef<View, ModalProps>(
         dialogScale.value = withTiming(1, { duration: 250 });
         dialogOpacity.value = withTiming(1, { duration: 250 });
       }
-    };
+    }, [isReduced, backdropOpacity, sheetTranslateY, dialogScale, dialogOpacity]);
 
-    const handleClose = (callback?: () => void) => {
+    const handleClose = useCallback((callback?: () => void) => {
       const onFinish = () => {
         setShouldRender(false);
         callback?.();
@@ -106,7 +106,7 @@ export const Modal = forwardRef<View, ModalProps>(
           }
         );
       }
-    };
+    }, [isReduced, backdropOpacity, sheetTranslateY, dialogScale, dialogOpacity]);
 
     // Monitor external isOpen state
     useEffect(() => {
@@ -115,14 +115,14 @@ export const Modal = forwardRef<View, ModalProps>(
       } else {
         handleClose();
       }
-    }, [isOpen]);
+    }, [isOpen, handleClose]);
 
     // Animate once mounted and ready
     useEffect(() => {
       if (shouldRender && isOpen) {
         handleOpen();
       }
-    }, [shouldRender, isOpen]);
+    }, [shouldRender, isOpen, handleOpen]);
 
     // PanResponder for drag-to-dismiss bottom sheet gestures
     const panResponder = PanResponder.create({
