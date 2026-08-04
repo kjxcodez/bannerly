@@ -18,6 +18,7 @@ import { SegmentedControl, Segment } from "../components/SegmentedControl";
 import { Header } from "../components/Header";
 import { TemplateCard } from "../components/TemplateCard";
 import { SlotOverlay, SlotType } from "../components/SlotOverlay";
+import { PaywallCard, PricingPeriod } from "../components/PaywallCard";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -28,6 +29,7 @@ export default function Index() {
   const [isRetryingTemplates, setIsRetryingTemplates] = useState(false);
   const [editorText, setEditorText] = useState("Make something today");
   const [selectedSlot, setSelectedSlot] = useState<SlotType | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<PricingPeriod>("yearly");
 
   // BottomSheet and Dialog visible states
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -1050,6 +1052,76 @@ export default function Index() {
             borderRadius={16}
           />
         </View>
+      </View>
+
+      {/* ── PaywallCard ───────────────────────────────────── */}
+      <View className="px-4 pb-12">
+        <Text variant="display-md" className="text-ink mb-1">
+          Paywall Cards
+        </Text>
+        <Text variant="body" className="text-ink-muted mb-6">
+          Tap a card to select a plan. Yearly is highlighted as Best Value.
+        </Text>
+
+        {/* Monthly */}
+        <View className="mb-4">
+          <PaywallCard
+            period="monthly"
+            price="$4.99"
+            priceNote="per month"
+            features={[
+              "Unlimited banner exports",
+              "100+ premium templates",
+              "Remove watermark",
+            ]}
+            isSelected={selectedPlan === "monthly"}
+            onPress={() => setSelectedPlan("monthly")}
+            onCtaPress={() => {
+              setSelectedPlan("monthly");
+              toast.show("Monthly plan selected!", { type: "success" });
+            }}
+          />
+        </View>
+
+        {/* Yearly — Best Value ribbon auto-applied */}
+        <View className="mb-4">
+          <PaywallCard
+            period="yearly"
+            price="$39.99"
+            priceNote="$3.33 / month · billed annually"
+            features={[
+              "Everything in Monthly",
+              "Priority customer support",
+              "Early access to new templates",
+              "Team workspace (up to 3 seats)",
+            ]}
+            isSelected={selectedPlan === "yearly"}
+            onPress={() => setSelectedPlan("yearly")}
+            onCtaPress={() => {
+              setSelectedPlan("yearly");
+              toast.show("Yearly plan selected — best value!", { type: "success" });
+            }}
+          />
+        </View>
+
+        {/* Lifetime */}
+        <PaywallCard
+          period="lifetime"
+          price="$89.99"
+          priceNote="one-time payment"
+          features={[
+            "Everything in Yearly",
+            "Lifetime updates included",
+            "Unlimited team seats",
+            "Commercial use license",
+          ]}
+          isSelected={selectedPlan === "lifetime"}
+          onPress={() => setSelectedPlan("lifetime")}
+          onCtaPress={() => {
+            setSelectedPlan("lifetime");
+            toast.show("Lifetime plan selected!", { type: "success" });
+          }}
+        />
       </View>
 
     </ScrollView>
