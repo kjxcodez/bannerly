@@ -17,6 +17,7 @@ import { Modal } from "../components/Modal";
 import { SegmentedControl, Segment } from "../components/SegmentedControl";
 import { Header } from "../components/Header";
 import { TemplateCard } from "../components/TemplateCard";
+import { SlotOverlay, SlotType } from "../components/SlotOverlay";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -26,6 +27,7 @@ export default function Index() {
   const [selectedTag, setSelectedTag] = useState("all");
   const [isRetryingTemplates, setIsRetryingTemplates] = useState(false);
   const [editorText, setEditorText] = useState("Make something today");
+  const [selectedSlot, setSelectedSlot] = useState<SlotType | null>(null);
 
   // BottomSheet and Dialog visible states
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
@@ -972,6 +974,81 @@ export default function Index() {
               onPress={() => toast.show("Story Highlight tapped!", { type: "success" })}
             />
           </View>
+        </View>
+      </View>
+
+      {/* ── SlotOverlay ──────────────────────────────────── */}
+      <View className="px-4 pb-12">
+        <Text variant="display-md" className="text-ink mb-1">
+          Slot Overlay
+        </Text>
+        <Text variant="body" className="text-ink-muted mb-6">
+          Canvas editable-region indicators. Tap any slot to select/deselect it.
+        </Text>
+
+        {/* Simulated poster canvas */}
+        <View className="bg-cream-deep rounded-2xl p-4 gap-3">
+
+          {/* All 5 slot types in a grid */}
+          <View className="flex-row gap-3">
+            {(["text", "image", "logo"] as SlotType[]).map((type) => (
+              <SlotOverlay
+                key={type}
+                slotType={type}
+                isSelected={selectedSlot === type}
+                onPress={() =>
+                  setSelectedSlot((prev) => (prev === type ? null : type))
+                }
+                className="flex-1 h-24"
+                borderRadius={8}
+              />
+            ))}
+          </View>
+
+          <View className="flex-row gap-3">
+            {(["background", "sticker"] as SlotType[]).map((type) => (
+              <SlotOverlay
+                key={type}
+                slotType={type}
+                isSelected={selectedSlot === type}
+                onPress={() =>
+                  setSelectedSlot((prev) => (prev === type ? null : type))
+                }
+                className="flex-1 h-24"
+                borderRadius={8}
+              />
+            ))}
+          </View>
+
+          {/* Filled slot — has children, outline still shown */}
+          <SlotOverlay
+            slotType="text"
+            hintLabel="Main headline"
+            isSelected={selectedSlot === "text"}
+            onPress={() =>
+              setSelectedSlot((prev) => (prev === "text" ? null : "text"))
+            }
+            className="h-14"
+            borderRadius={8}
+          >
+            <View className="flex-1 items-center justify-center">
+              <Text variant="title" className="text-ink">
+                Make It Count
+              </Text>
+            </View>
+          </SlotOverlay>
+
+          {/* Card-scale radius variant */}
+          <SlotOverlay
+            slotType="image"
+            hintLabel="Cover photo"
+            isSelected={selectedSlot === "image"}
+            onPress={() =>
+              setSelectedSlot((prev) => (prev === "image" ? null : "image"))
+            }
+            className="h-32"
+            borderRadius={16}
+          />
         </View>
       </View>
 

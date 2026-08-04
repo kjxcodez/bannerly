@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import Animated, {
   interpolateColor,
+  SharedValue,
   useAnimatedProps,
   useAnimatedStyle,
-  useDerivedValue,
   useReducedMotion,
   useSharedValue,
   withTiming,
@@ -18,7 +18,6 @@ import Animated, {
 import Svg, { Rect } from "react-native-svg";
 import { FontAwesome } from "@expo/vector-icons";
 import { cssInterop } from "nativewind";
-import { Text } from "./Text";
 
 // ─── Design token hex values ──────────────────────────────────────────────────
 // Used only where Tailwind class strings can't reach: SVG stroke, shadow color,
@@ -79,7 +78,7 @@ const SLOT_HINTS: Record<SlotType, HintMeta> = {
 
 interface SlotBorderProps {
   /** 0 = unselected (dashed neutral), 1 = selected (solid coral). */
-  progress: Animated.SharedValue<number>;
+  progress: SharedValue<number>;
   borderRadius: number;
 }
 
@@ -187,14 +186,6 @@ export const SlotOverlay = forwardRef<View, SlotOverlayProps>(
     useEffect(() => {
       syncProgress();
     }, [syncProgress]);
-
-    // ── Icon color derived value ──────────────────────────────────────────────
-    // FontAwesome's `color` prop is imperative, so we derive a JS-thread string
-    // via useDerivedValue and read it at render-time for the sync icon pass.
-    // For the animated version, the icon re-renders on selection change.
-    const iconColor = useDerivedValue(() =>
-      interpolateColor(progress.value, [0, 1], [TOKEN.inkMuted, TOKEN.coral])
-    );
 
     // ── Animated styles ───────────────────────────────────────────────────────
 
