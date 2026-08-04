@@ -9,6 +9,7 @@ import { Badge } from "../components/Badge";
 import { toast } from "../components/Toast";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { EmptyState } from "../components/EmptyState";
+import { ErrorState } from "../components/ErrorState";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -16,12 +17,21 @@ export default function Index() {
   const [isIconLoading, setIsIconLoading] = useState(false);
   const [cardPressCount, setCardPressCount] = useState(0);
   const [selectedTag, setSelectedTag] = useState("all");
+  const [isRetryingTemplates, setIsRetryingTemplates] = useState(false);
 
   const tags = ["all", "posters", "flyers", "invitations", "business"];
 
   const triggerFullScreenLoading = () => {
     setIsFullScreenLoading(true);
     setTimeout(() => setIsFullScreenLoading(false), 2000);
+  };
+
+  const handleRetryTemplates = () => {
+    setIsRetryingTemplates(true);
+    setTimeout(() => {
+      setIsRetryingTemplates(false);
+      toast.show("Templates loaded successfully!", { type: "success" });
+    }, 2000);
   };
 
   const triggerMultipleToasts = () => {
@@ -47,6 +57,35 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* ErrorState Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Error States (Error-themed)
+        </Text>
+        <View className="gap-8">
+          <View className="border border-border rounded-2xl bg-cream-deep p-4">
+            <Text variant="caption" className="uppercase text-coral mb-2">Example 1: Connection Error (Default Icon)</Text>
+            <ErrorState
+              title="Connection lost"
+              description="Could not connect to the server. Please check your internet connection and try again."
+              onRetry={() => toast.show("Checking connection...", { type: "success" })}
+            />
+          </View>
+
+          <View className="border border-border rounded-2xl bg-cream-deep p-4">
+            <Text variant="caption" className="uppercase text-coral mb-2">Example 2: Data Load Failure (Custom Icon + Mock Retrying)</Text>
+            <ErrorState
+              title="Failed to load templates"
+              description="An error occurred while fetching the design template catalog. Please try again."
+              illustration={<FontAwesome name="cloud" size={48} color="#B14538" />}
+              retryLabel={isRetryingTemplates ? "Retrying..." : "Retry loading"}
+              onRetry={handleRetryTemplates}
+              isRetrying={isRetryingTemplates}
+            />
+          </View>
+        </View>
       </View>
 
       {/* EmptyState Showroom */}
