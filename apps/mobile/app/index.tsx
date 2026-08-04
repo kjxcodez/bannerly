@@ -14,6 +14,7 @@ import { TextInput } from "../components/TextInput";
 import { ColorSwatchPicker, ColorSwatch } from "../components/ColorSwatchPicker";
 import { FontPicker, FontOption } from "../components/FontPicker";
 import { Modal } from "../components/Modal";
+import { SegmentedControl, Segment } from "../components/SegmentedControl";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -27,6 +28,21 @@ export default function Index() {
   // BottomSheet and Dialog visible states
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // SegmentedControl state
+  const [categorySegmentIndex, setCategorySegmentIndex] = useState(0);
+  const [viewSegmentIndex, setViewSegmentIndex] = useState(0);
+
+  const categories: Segment[] = [
+    { id: "featured", label: "Featured" },
+    { id: "popular", label: "Popular" },
+    { id: "recent", label: "Recent" },
+  ];
+
+  const viewToggles: Segment[] = [
+    { id: "grid", label: "Grid View" },
+    { id: "list", label: "List View" },
+  ];
 
   // Define design system color swatches for testing
   const designSystemSwatches: ColorSwatch[] = [
@@ -69,6 +85,16 @@ export default function Index() {
     }
   };
 
+  const handleCategoryChange = (index: number) => {
+    setCategorySegmentIndex(index);
+    toast.show(`Switched category to: ${categories[index].label}`, { type: "success" });
+  };
+
+  const handleViewChange = (index: number) => {
+    setViewSegmentIndex(index);
+    toast.show(`Switched layout to: ${viewToggles[index].label}`, { type: "success" });
+  };
+
   const triggerFullScreenLoading = () => {
     setIsFullScreenLoading(true);
     setTimeout(() => setIsFullScreenLoading(false), 2000);
@@ -105,6 +131,32 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* SegmentedControl Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Segmented Controls (Tab bar & Setting toggles)
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Category Tabs (3 segments)</Text>
+            <SegmentedControl
+              segments={categories}
+              selectedIndex={categorySegmentIndex}
+              onChange={handleCategoryChange}
+            />
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Settings Toggle (2 segments)</Text>
+            <SegmentedControl
+              segments={viewToggles}
+              selectedIndex={viewSegmentIndex}
+              onChange={handleViewChange}
+            />
+          </View>
+        </View>
       </View>
 
       {/* Modal / BottomSheet Showroom */}

@@ -11,3 +11,4 @@ export * from "./TextInput";
 export * from "./ColorSwatchPicker";
 export * from "./FontPicker";
 export * from "./Modal";
+export * from "./SegmentedControl";
