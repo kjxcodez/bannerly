@@ -12,3 +12,4 @@ export * from "./ColorSwatchPicker";
 export * from "./FontPicker";
 export * from "./Modal";
 export * from "./SegmentedControl";
+export * from "./Header";

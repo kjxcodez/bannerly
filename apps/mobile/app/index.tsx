@@ -15,6 +15,7 @@ import { ColorSwatchPicker, ColorSwatch } from "../components/ColorSwatchPicker"
 import { FontPicker, FontOption } from "../components/FontPicker";
 import { Modal } from "../components/Modal";
 import { SegmentedControl, Segment } from "../components/SegmentedControl";
+import { Header } from "../components/Header";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -131,6 +132,44 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* Header Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Headers (Centered serif title)
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Standard Header (title only)</Text>
+            <Header title="My Designs" />
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Navigation Header (with back arrow)</Text>
+            <Header
+              title="Edit Title"
+              onBackPress={() => toast.show("Back triggered!", { type: "success" })}
+            />
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Full Header (back arrow + right custom action)</Text>
+            <Header
+              title="Editor Canvas"
+              onBackPress={() => toast.show("Back triggered!", { type: "success" })}
+              rightAction={
+                <IconButton
+                  variant="premium"
+                  size="sm"
+                  accessibilityLabel="Mark template as premium"
+                  icon={<FontAwesome name="star" size={14} color="#2B2621" />}
+                  onPress={() => toast.show("Premium template saved!", { type: "success" })}
+                />
+              }
+            />
+          </View>
+        </View>
       </View>
 
       {/* SegmentedControl Showroom */}
