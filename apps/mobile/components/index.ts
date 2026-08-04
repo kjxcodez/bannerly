@@ -3,3 +3,4 @@ export * from "./Text";
 export * from "./IconButton";
 export * from "./Card";
 export * from "./Badge";
+export * from "./Toast";

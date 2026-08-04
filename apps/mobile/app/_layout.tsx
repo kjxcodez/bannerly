@@ -1,6 +1,11 @@
 import "../global.css";
 import { Stack } from "expo-router";
+import { ToastProvider } from "../components/Toast";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <ToastProvider>
+      <Stack />
+    </ToastProvider>
+  );
 }

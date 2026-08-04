@@ -6,6 +6,7 @@ import { Text } from "../components/Text";
 import { IconButton } from "../components/IconButton";
 import { Card } from "../components/Card";
 import { Badge } from "../components/Badge";
+import { toast } from "../components/Toast";
 
 export default function Index() {
   const [isLgLoading, setIsLgLoading] = useState(false);
@@ -15,10 +16,16 @@ export default function Index() {
 
   const tags = ["all", "posters", "flyers", "invitations", "business"];
 
+  const triggerMultipleToasts = () => {
+    toast.show("First message in the queue! (Success)", { type: "success" });
+    toast.show("Second message waiting in line! (Error)", { type: "error" });
+    toast.show("Third message, queue-safe! (Success)", { type: "success" });
+  };
+
   return (
     <ScrollView 
       className="flex-1 bg-cream p-6"
-      contentContainerStyle={{ paddingBottom: 48 }}
+      contentContainerStyle={{ paddingBottom: 120 }} // Extra space for floating toast
     >
       <View className="mb-8 mt-12">
         <Text variant="display-lg" className="mb-2">
@@ -27,6 +34,36 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* Toasts Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Toast Notifications (Queue-Safe & Self-Dismissing)
+        </Text>
+        <View className="gap-4">
+          <View className="flex-row gap-4">
+            <View className="flex-1">
+              <Button
+                variant="primary"
+                label="Trigger Success"
+                onPress={() => toast.show("Design saved successfully!", { type: "success" })}
+              />
+            </View>
+            <View className="flex-1">
+              <Button
+                variant="destructive"
+                label="Trigger Error"
+                onPress={() => toast.show("Failed to export image. Try again.", { type: "error" })}
+              />
+            </View>
+          </View>
+          <Button
+            variant="secondary"
+            label="Trigger 3 Toasts in Sequence (Queue Check)"
+            onPress={triggerMultipleToasts}
+          />
+        </View>
       </View>
 
       {/* Badges / Chips Showroom */}
