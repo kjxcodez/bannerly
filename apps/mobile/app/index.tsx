@@ -10,6 +10,7 @@ import { toast } from "../components/Toast";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { EmptyState } from "../components/EmptyState";
 import { ErrorState } from "../components/ErrorState";
+import { TextInput } from "../components/TextInput";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -18,6 +19,7 @@ export default function Index() {
   const [cardPressCount, setCardPressCount] = useState(0);
   const [selectedTag, setSelectedTag] = useState("all");
   const [isRetryingTemplates, setIsRetryingTemplates] = useState(false);
+  const [editorText, setEditorText] = useState("Make something today");
 
   const tags = ["all", "posters", "flyers", "invitations", "business"];
 
@@ -57,6 +59,44 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* TextInput Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Text Inputs
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Default Input</Text>
+            <TextInput
+              label="Template Search"
+              placeholder="Search templates (e.g. sale, event)..."
+              helperText="Try typing tags or layout styles"
+            />
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Editor Input (With Character Limit)</Text>
+            <TextInput
+              label="Editor Text Slot"
+              placeholder="Enter poster headline..."
+              value={editorText}
+              onChangeText={setEditorText}
+              maxLength={30}
+            />
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Input with Validation Error</Text>
+            <TextInput
+              label="Upgrade Invite Code"
+              placeholder="Enter 6-digit code..."
+              defaultValue="ABC"
+              error="Invalid code format. Must contain 6 characters."
+            />
+          </View>
+        </View>
       </View>
 
       {/* ErrorState Showroom */}
