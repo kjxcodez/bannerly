@@ -12,6 +12,7 @@ import { EmptyState } from "../components/EmptyState";
 import { ErrorState } from "../components/ErrorState";
 import { TextInput } from "../components/TextInput";
 import { ColorSwatchPicker, ColorSwatch } from "../components/ColorSwatchPicker";
+import { FontPicker, FontOption } from "../components/FontPicker";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -22,7 +23,7 @@ export default function Index() {
   const [isRetryingTemplates, setIsRetryingTemplates] = useState(false);
   const [editorText, setEditorText] = useState("Make something today");
 
-  // Define design system color swatches for testing YIQ contrast checks and sizing
+  // Define design system color swatches for testing
   const designSystemSwatches: ColorSwatch[] = [
     { id: "coral", value: "#E8623D", label: "Coral Accent" },
     { id: "gold", value: "#C99A3A", label: "Premium Gold" },
@@ -33,8 +34,17 @@ export default function Index() {
     { id: "white", value: "#FFFFFF", label: "Pure White" },
   ];
 
+  // Define loaded custom fonts for testing live preview typeface picker
+  const designSystemFonts: FontOption[] = [
+    { id: "fraunces", name: "Fraunces Serif", fontFamily: "Fraunces-SemiBold" },
+    { id: "inter-regular", name: "Inter Regular", fontFamily: "Inter-Regular" },
+    { id: "inter-medium", name: "Inter Medium", fontFamily: "Inter-Medium" },
+    { id: "inter-semibold", name: "Inter SemiBold", fontFamily: "Inter-SemiBold" },
+  ];
+
   const [selectedColorId, setSelectedColorId] = useState("coral");
   const [selectedSmallColorId, setSelectedSmallColorId] = useState("success");
+  const [selectedFontId, setSelectedFontId] = useState("fraunces");
 
   const tags = ["all", "posters", "flyers", "invitations", "business"];
 
@@ -43,6 +53,14 @@ export default function Index() {
     const swatch = designSystemSwatches.find((s) => s.id === id);
     if (swatch) {
       toast.show(`Selected Theme Color: ${swatch.label}`, { type: "success" });
+    }
+  };
+
+  const handleSelectFont = (id: string) => {
+    setSelectedFontId(id);
+    const font = designSystemFonts.find((f) => f.id === id);
+    if (font) {
+      toast.show(`Selected Font: ${font.name}`, { type: "success" });
     }
   };
 
@@ -82,6 +100,35 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* FontPicker Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Font Picker (Horizontal preview selector)
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Select Typeface (rendered in its own style)</Text>
+            <FontPicker
+              fonts={designSystemFonts}
+              selectedFontId={selectedFontId}
+              onSelectFont={handleSelectFont}
+            />
+          </View>
+
+          <Card padding="md" className="items-center justify-center h-28 bg-white border border-border rounded-xl">
+            <Text variant="caption" className="uppercase text-coral mb-2">Live Text Preview Box</Text>
+            <Text
+              style={{
+                fontFamily: designSystemFonts.find((f) => f.id === selectedFontId)?.fontFamily || "Inter-Regular",
+              }}
+              className="text-2xl text-ink text-center"
+            >
+              {editorText || "Bannerly Poster"}
+            </Text>
+          </Card>
+        </View>
       </View>
 
       {/* ColorSwatchPicker Showroom */}
