@@ -3,11 +3,9 @@ import React, {
   useContext,
   useEffect,
   useState,
-  forwardRef,
 } from "react";
 import {
   Pressable,
-  StyleProp,
   Text,
   View,
   ViewStyle,
@@ -21,7 +19,6 @@ import Animated, {
   cancelAnimation,
 } from "react-native-reanimated";
 import { FontAwesome } from "@expo/vector-icons";
-import { cssInterop } from "nativewind";
 
 export type ToastType = "success" | "error";
 
@@ -125,6 +122,7 @@ const ToastBanner = ({ toastData, onClose }: ToastComponentProps) => {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReduced, duration]);
 
   const handleManualClose = () => {
