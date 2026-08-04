@@ -16,6 +16,7 @@ import { FontPicker, FontOption } from "../components/FontPicker";
 import { Modal } from "../components/Modal";
 import { SegmentedControl, Segment } from "../components/SegmentedControl";
 import { Header } from "../components/Header";
+import { TemplateCard } from "../components/TemplateCard";
 
 export default function Index() {
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
@@ -882,6 +883,97 @@ export default function Index() {
           </View>
         </View>
       </Modal>
+
+      {/* ── TemplateCard ─────────────────────────────────────── */}
+      <View className="px-4 pb-4">
+        <Text variant="display-md" className="text-ink mb-1">
+          Template Cards
+        </Text>
+        <Text variant="body" className="text-ink-muted mb-6">
+          Gallery grid items with category chip, name label, press-scale, and optional premium ribbon.
+        </Text>
+
+        {/* Portrait grid (default) */}
+        <Text variant="caption" className="text-ink-muted uppercase tracking-widest mb-3">
+          Portrait (3:4)
+        </Text>
+        <View className="flex-row gap-3 mb-6">
+          <View className="flex-1">
+            <TemplateCard
+              name="Summer Vibes"
+              category="Social"
+              thumbnail={{ uri: "https://picsum.photos/seed/summer/300/400" }}
+              onPress={() => toast.show("Summer Vibes tapped!", { type: "success" })}
+            />
+          </View>
+          <View className="flex-1">
+            <TemplateCard
+              name="Gold Collection"
+              category="Premium"
+              thumbnail={{ uri: "https://picsum.photos/seed/gold/300/400" }}
+              isPremium
+              onPress={() => toast.show("Gold Collection tapped!", { type: "success" })}
+            />
+          </View>
+          <View className="flex-1">
+            <TemplateCard
+              name="Minimalist"
+              category="Business"
+              thumbnail={{ uri: "https://picsum.photos/seed/minimal/300/400" }}
+              isPremium
+              onPress={() => toast.show("Minimalist tapped!", { type: "success" })}
+            />
+          </View>
+        </View>
+
+        {/* Landscape */}
+        <Text variant="caption" className="text-ink-muted uppercase tracking-widest mb-3">
+          Landscape (4:3)
+        </Text>
+        <View className="gap-3 mb-6">
+          <TemplateCard
+            name="Event Banner"
+            category="Events"
+            thumbnail={{ uri: "https://picsum.photos/seed/event/400/300" }}
+            aspect="landscape"
+            onPress={() => toast.show("Event Banner tapped!", { type: "success" })}
+          />
+          <TemplateCard
+            name="Product Launch"
+            category="Marketing"
+            thumbnail={{ uri: "https://picsum.photos/seed/product/400/300" }}
+            aspect="landscape"
+            isPremium
+            onPress={() => toast.show("Product Launch tapped!", { type: "success" })}
+          />
+        </View>
+
+        {/* Square */}
+        <Text variant="caption" className="text-ink-muted uppercase tracking-widest mb-3">
+          Square (1:1)
+        </Text>
+        <View className="flex-row gap-3">
+          <View className="flex-1">
+            <TemplateCard
+              name="Instagram Post"
+              category="Social"
+              thumbnail={{ uri: "https://picsum.photos/seed/insta/300/300" }}
+              aspect="square"
+              onPress={() => toast.show("Instagram Post tapped!", { type: "success" })}
+            />
+          </View>
+          <View className="flex-1">
+            <TemplateCard
+              name="Story Highlight"
+              category="Stories"
+              thumbnail={{ uri: "https://picsum.photos/seed/story/300/300" }}
+              aspect="square"
+              isPremium
+              onPress={() => toast.show("Story Highlight tapped!", { type: "success" })}
+            />
+          </View>
+        </View>
+      </View>
 
     </ScrollView>
   );
