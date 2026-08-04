@@ -7,8 +7,10 @@ import { IconButton } from "../components/IconButton";
 import { Card } from "../components/Card";
 import { Badge } from "../components/Badge";
 import { toast } from "../components/Toast";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export default function Index() {
+  const [isFullScreenLoading, setIsFullScreenLoading] = useState(false);
   const [isLgLoading, setIsLgLoading] = useState(false);
   const [isIconLoading, setIsIconLoading] = useState(false);
   const [cardPressCount, setCardPressCount] = useState(0);
@@ -16,16 +18,26 @@ export default function Index() {
 
   const tags = ["all", "posters", "flyers", "invitations", "business"];
 
+  const triggerFullScreenLoading = () => {
+    setIsFullScreenLoading(true);
+    setTimeout(() => setIsFullScreenLoading(false), 2000);
+  };
+
   const triggerMultipleToasts = () => {
     toast.show("First message in the queue! (Success)", { type: "success" });
     toast.show("Second message waiting in line! (Error)", { type: "error" });
     toast.show("Third message, queue-safe! (Success)", { type: "success" });
   };
 
+  // Renders the full screen spinner during showroom testing
+  if (isFullScreenLoading) {
+    return <LoadingSpinner fullScreen={true} color="coral" />;
+  }
+
   return (
     <ScrollView 
       className="flex-1 bg-cream p-6"
-      contentContainerStyle={{ paddingBottom: 120 }} // Extra space for floating toast
+      contentContainerStyle={{ paddingBottom: 120 }}
     >
       <View className="mb-8 mt-12">
         <Text variant="display-lg" className="mb-2">
@@ -34,6 +46,63 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* LoadingSpinners Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Loading Spinners (Reanimated rotation)
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Spinner Colors</Text>
+            <View className="flex-row gap-6 items-center">
+              <View className="items-center">
+                <LoadingSpinner color="coral" size="md" />
+                <Text variant="caption" className="mt-1">coral</Text>
+              </View>
+              <View className="items-center">
+                <LoadingSpinner color="ink" size="md" />
+                <Text variant="caption" className="mt-1">ink</Text>
+              </View>
+              <View className="items-center">
+                <LoadingSpinner color="ink-muted" size="md" />
+                <Text variant="caption" className="mt-1">ink-muted</Text>
+              </View>
+              <View className="items-center bg-ink p-2 rounded-lg">
+                <LoadingSpinner color="white" size="md" />
+                <Text variant="caption" className="text-white mt-1">white</Text>
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Spinner Sizes</Text>
+            <View className="flex-row gap-6 items-center">
+              <View className="items-center">
+                <LoadingSpinner color="coral" size="sm" />
+                <Text variant="caption" className="mt-1">sm (16px)</Text>
+              </View>
+              <View className="items-center">
+                <LoadingSpinner color="coral" size="md" />
+                <Text variant="caption" className="mt-1">md (24px)</Text>
+              </View>
+              <View className="items-center">
+                <LoadingSpinner color="coral" size="lg" />
+                <Text variant="caption" className="mt-1">lg (40px)</Text>
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Spinner Layouts</Text>
+            <Button
+              variant="secondary"
+              label="Trigger Full-Screen Loader (2s)"
+              onPress={triggerFullScreenLoading}
+            />
+          </View>
+        </View>
       </View>
 
       {/* Toasts Showroom */}

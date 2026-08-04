@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
 import {
-  ActivityIndicator,
   Pressable,
   PressableProps,
   StyleProp,
@@ -14,6 +13,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { cssInterop } from "nativewind";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -32,12 +32,12 @@ const sizeClasses = {
   lg: "w-14 h-14 rounded-full border items-center justify-center",
 };
 
-// Spinner colors corresponding to text colors of the same variant
+// Spinner color tokens corresponding to text colors of the same variant
 const spinnerColors = {
-  primary: "#FFFFFF",
-  secondary: "#2B2621",
-  premium: "#2B2621",
-  destructive: "#B14538",
+  primary: "white",
+  secondary: "ink",
+  premium: "ink",
+  destructive: "error",
 };
 
 export interface IconButtonProps
@@ -148,10 +148,9 @@ export const IconButton = forwardRef<View, IconButtonProps>(
         {...pressableProps}
       >
         {isLoading ? (
-          <ActivityIndicator
-            size="small"
+          <LoadingSpinner
+            size={size === "lg" ? "md" : "sm"}
             color={spinnerColors[variant]}
-            accessibilityLabel="Loading indicator"
           />
         ) : (
           icon
