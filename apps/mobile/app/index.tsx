@@ -4,10 +4,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Button } from "../components/Button";
 import { Text } from "../components/Text";
 import { IconButton } from "../components/IconButton";
+import { Card } from "../components/Card";
 
 export default function Index() {
   const [isLgLoading, setIsLgLoading] = useState(false);
   const [isIconLoading, setIsIconLoading] = useState(false);
+  const [cardPressCount, setCardPressCount] = useState(0);
 
   return (
     <ScrollView 
@@ -21,6 +23,64 @@ export default function Index() {
         <Text variant="body" className="text-ink-muted">
           A showcase of our production component library styled with NativeWind and animated with Reanimated.
         </Text>
+      </View>
+
+      {/* Cards Showroom */}
+      <View className="mb-8">
+        <Text variant="title" className="mb-4 border-b border-border pb-2">
+          Cards & Containers
+        </Text>
+        <View className="gap-6">
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Static Card (default padding: md)</Text>
+            <Card>
+              <Text variant="title" className="mb-1">Friendly Print Shop</Text>
+              <Text variant="body" className="text-ink-muted">
+                This is a static container card. It has a warm-tinted shadow, 16px border-radius, and a subtle border.
+              </Text>
+            </Card>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Interactive Card (onPress + scale transition)</Text>
+            <Card 
+              onPress={() => setCardPressCount(prev => prev + 1)}
+              accessibilityLabel="Tap to increment count"
+            >
+              <View className="flex-row items-center justify-between">
+                <View className="flex-1 mr-4">
+                  <Text variant="title" className="mb-1">Selectable Template</Text>
+                  <Text variant="body-sm" className="text-ink-muted">
+                    This card acts as a button. Tap it to see the feedback scale animation.
+                  </Text>
+                </View>
+                <View className="bg-coral-tint p-3 rounded-full">
+                  <Text variant="body-sm" className="text-coral font-inter-semibold">
+                    {cardPressCount}
+                  </Text>
+                </View>
+              </View>
+            </Card>
+          </View>
+
+          <View>
+            <Text variant="body-sm" className="text-ink-muted mb-2">Card Padding Scales (sm vs lg)</Text>
+            <View className="flex-row gap-4">
+              <View className="flex-1">
+                <Card padding="sm" className="h-28 justify-center">
+                  <Text variant="title" className="text-center">Small</Text>
+                  <Text variant="caption" className="text-center uppercase text-coral">8px padding</Text>
+                </Card>
+              </View>
+              <View className="flex-1">
+                <Card padding="lg" className="h-28 justify-center">
+                  <Text variant="title" className="text-center">Large</Text>
+                  <Text variant="caption" className="text-center uppercase text-coral">24px padding</Text>
+                </Card>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
 
       {/* Typography Showroom */}
